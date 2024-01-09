@@ -3,4 +3,6 @@
     <string name="fetch_all_widgets">Fetch all widgets</string>
     <string name="widget_preview">Widget Preview</string>
     <string name="application_icon">Application Icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
