@@ -3,12 +3,10 @@ package com.chirput.allwidgets
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
-import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,20 +43,10 @@ class MainActivity : AppCompatActivity() {
         for (info in providers) {
             Log.d("SOHAIL_BRO", "$info")
 
-            val icon = getWidgetIcon(info.provider)
-            widgetItems.add(WidgetModel(info.label, info.provider, icon))
+            val previewImageUri = Uri.parse("android.resource://${info.provider.packageName}/${info.previewImage}")
+            widgetItems.add(WidgetModel(info.label, info.provider, previewImageUri))
         }
 
         recyclerView.adapter = WidgetAdapter(this, widgetItems)
-    }
-
-    private fun getWidgetIcon(provider: ComponentName): Drawable? {
-        return try {
-            val appInfo = packageManager.getApplicationInfo(provider.packageName, 0)
-            appInfo.loadIcon(packageManager)
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-            ContextCompat.getDrawable(this, R.drawable.ic_widget_no_preview)
-        }
     }
 }

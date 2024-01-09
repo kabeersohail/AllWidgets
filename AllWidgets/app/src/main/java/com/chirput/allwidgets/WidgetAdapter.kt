@@ -1,7 +1,7 @@
 package com.chirput.allwidgets
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +32,7 @@ class WidgetAdapter(
 
         Glide
             .with(context)
-            .load(items[position].icon)
-            .centerCrop()
+            .load(items[position].previewImageUri)
             .placeholder(placeholder)
             .into(holder.widgetPreview)
 
