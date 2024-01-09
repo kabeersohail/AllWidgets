@@ -1,6 +1,7 @@
 package com.chirput.allwidgets
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,12 +28,11 @@ class WidgetAdapter(
     }
 
     override fun onBindViewHolder(holder: WidgetViewHolder, position: Int) {
-
         val placeholder = ContextCompat.getDrawable(context, R.drawable.ic_widget_no_preview)
 
         Glide
             .with(context)
-            .load(items[position].iconUri)
+            .load(items[position].icon)
             .centerCrop()
             .placeholder(placeholder)
             .into(holder.widgetPreview)

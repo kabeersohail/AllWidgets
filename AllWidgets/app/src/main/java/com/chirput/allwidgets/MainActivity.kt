@@ -3,17 +3,16 @@ package com.chirput.allwidgets
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
-import android.net.Uri
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chirput.allwidgets.databinding.ActivityMainBinding
-
-private const val SCHEME = "widget.preview"
-private const val PARAM_ICON = "icon"
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         populateWidgets()
-
     }
 
     override fun onResume() {
@@ -43,29 +41,24 @@ class MainActivity : AppCompatActivity() {
     private fun populateWidgets() {
         val providers: List<AppWidgetProviderInfo> = appWidgetManager.installedProviders
         val widgetItems: MutableList<WidgetModel> = mutableListOf()
-        for(info in providers) {
+
+        for (info in providers) {
             Log.d("SOHAIL_BRO", "$info")
 
-            val uri = uriFrom(info.provider, true)
-
-            if(uri != null) {
-                widgetItems.add(WidgetModel(info.label, uri))
-            }
+            val icon = getWidgetIcon(info.provider)
+            widgetItems.add(WidgetModel(info.label, info.provider, icon))
         }
 
         recyclerView.adapter = WidgetAdapter(this, widgetItems)
     }
 
-    private fun uriFrom(provider: ComponentName, icon: Boolean): Uri? {
-        return Uri.Builder()
-            .scheme(SCHEME)
-            .authority(provider.packageName)
-            .appendEncodedPath(provider.className)
-            .appendQueryParameter(
-                PARAM_ICON,
-                icon.toString()
-            )
-            .build()
+    private fun getWidgetIcon(provider: ComponentName): Drawable? {
+        return try {
+            val appInfo = packageManager.getApplicationInfo(provider.packageName, 0)
+            appInfo.loadIcon(packageManager)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            ContextCompat.getDrawable(this, R.drawable.ic_widget_no_preview)
+        }
     }
-
 }
