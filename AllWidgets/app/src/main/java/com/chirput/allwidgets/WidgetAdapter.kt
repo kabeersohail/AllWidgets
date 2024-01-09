@@ -19,6 +19,7 @@ class WidgetAdapter(
     class WidgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val widgetPreview: ImageView = itemView.findViewById(R.id.widget_preview)
         val widgetName: TextView = itemView.findViewById(R.id.widget_name)
+        val widgetIcon: ImageView = itemView.findViewById(R.id.widget_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WidgetViewHolder {
@@ -35,6 +36,13 @@ class WidgetAdapter(
             .load(items[position].previewImageUri)
             .placeholder(placeholder)
             .into(holder.widgetPreview)
+
+        Glide
+            .with(context)
+            .load(items[position].icon)
+            .centerCrop()
+            .placeholder(placeholder)
+            .into(holder.widgetIcon)
 
         holder.widgetName.text = items[position].widgetName
     }
