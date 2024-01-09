@@ -22,14 +22,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chirput.allwidgets.databinding.FragmentHomeBinding
+import com.chirput.allwidgets.databinding.FragmentWidgetsBinding
 
 private const val EXTRA_RESULT = "result"
 private const val APP_WIDGET_ID = 123
 
-class HomeFragment : Fragment(), Listener {
+class WidgetsFragment : Fragment(), Listener {
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentWidgetsBinding
 
     private lateinit var appWidgetManager: AppWidgetManager
     private lateinit var recyclerView: RecyclerView
@@ -53,7 +53,7 @@ class HomeFragment : Fragment(), Listener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentWidgetsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -142,6 +142,4 @@ class HomeFragment : Fragment(), Listener {
             return null
         }
     }
-
-
 }
