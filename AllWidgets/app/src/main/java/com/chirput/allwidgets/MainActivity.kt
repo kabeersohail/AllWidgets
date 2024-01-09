@@ -6,7 +6,9 @@ import android.content.ComponentName
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -48,7 +50,17 @@ class MainActivity : AppCompatActivity() {
 
             val widgetPreviewUri = Uri.parse("android.resource://${info.provider.packageName}/${info.previewImage}")
             val icon = getWidgetIcon(info.provider)
-            widgetItems.add(WidgetModel(info.label, info.provider, widgetPreviewUri, icon))
+
+            var description = ""
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val desc = info.loadDescription(this)
+                if (!TextUtils.isEmpty(desc)) {
+                    description = desc.toString()
+                }
+            }
+
+            widgetItems.add(WidgetModel(info.label, info.provider, widgetPreviewUri, icon, description))
         }
 
         recyclerView.adapter = WidgetAdapter(this, widgetItems)

@@ -20,6 +20,7 @@ class WidgetAdapter(
         val widgetPreview: ImageView = itemView.findViewById(R.id.widget_preview)
         val widgetName: TextView = itemView.findViewById(R.id.widget_name)
         val widgetIcon: ImageView = itemView.findViewById(R.id.widget_icon)
+        val widgetDescription: TextView = itemView.findViewById(R.id.widget_description)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WidgetViewHolder {
@@ -45,6 +46,7 @@ class WidgetAdapter(
             .into(holder.widgetIcon)
 
         holder.widgetName.text = items[position].widgetName
+        holder.widgetDescription.text = items[position].description
     }
 
     override fun getItemCount(): Int = items.size

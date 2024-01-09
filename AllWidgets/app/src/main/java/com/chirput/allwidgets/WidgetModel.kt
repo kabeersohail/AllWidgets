@@ -8,5 +8,6 @@ data class WidgetModel(
     val widgetName: String,
     val provider: ComponentName,
     val previewImageUri: Uri?,
-    val icon: Drawable?
+    val icon: Drawable?,
+    val description: String
 )
