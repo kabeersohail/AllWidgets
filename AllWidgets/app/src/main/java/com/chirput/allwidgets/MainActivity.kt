@@ -2,18 +2,24 @@ package com.chirput.allwidgets
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
+import android.content.ComponentName
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chirput.allwidgets.databinding.ActivityMainBinding
+
+private const val SCHEME = "widget.preview"
+private const val PARAM_ICON = "icon"
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var appWidgetManager: AppWidgetManager
-
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +28,44 @@ class MainActivity : AppCompatActivity() {
 
         appWidgetManager = getSystemService(APPWIDGET_SERVICE) as AppWidgetManager
 
-        binding.fetchAllWidgets.setOnClickListener {
-            Toast.makeText(this, "Fetching widgets", Toast.LENGTH_SHORT).show()
-            populateWidgets()
-        }
+        recyclerView = findViewById(R.id.widget_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        populateWidgets()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        populateWidgets()
     }
 
     private fun populateWidgets() {
         val providers: List<AppWidgetProviderInfo> = appWidgetManager.installedProviders
-
+        val widgetItems: MutableList<WidgetModel> = mutableListOf()
         for(info in providers) {
             Log.d("SOHAIL_BRO", "$info")
+
+            val uri = uriFrom(info.provider, true)
+
+            if(uri != null) {
+                widgetItems.add(WidgetModel(info.label, uri))
+            }
         }
+
+        recyclerView.adapter = WidgetAdapter(this, widgetItems)
+    }
+
+    private fun uriFrom(provider: ComponentName, icon: Boolean): Uri? {
+        return Uri.Builder()
+            .scheme(SCHEME)
+            .authority(provider.packageName)
+            .appendEncodedPath(provider.className)
+            .appendQueryParameter(
+                PARAM_ICON,
+                icon.toString()
+            )
+            .build()
     }
 
 }
