@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AllWidgets</string>
+    <string name="fetch_all_widgets">Fetch all widgets</string>
 </resources>
