@@ -1,5 +1,6 @@
 package com.chirput.allwidgets
 
+import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -9,5 +10,6 @@ data class WidgetModel(
     val provider: ComponentName,
     val previewImageUri: Uri?,
     val icon: Drawable?,
-    val description: String
+    val description: String,
+    val info: AppWidgetProviderInfo
 )

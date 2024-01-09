@@ -1,7 +1,6 @@
 package com.chirput.allwidgets
 
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,8 @@ import com.bumptech.glide.Glide
 
 class WidgetAdapter(
     private val context: Context,
-    private val items: List<WidgetModel>
+    private val items: List<WidgetModel>,
+    private val listener: Listener
 ) : RecyclerView.Adapter<WidgetAdapter.WidgetViewHolder>() {
 
     class WidgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,9 +24,18 @@ class WidgetAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WidgetViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_widget_item, parent, false)
-        return WidgetViewHolder(view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_widget_item, parent, false)
+
+        val holder = WidgetViewHolder(view)
+
+        holder.itemView.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onWidgetSelected(getItem(position).info)
+            }
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: WidgetViewHolder, position: Int) {
@@ -50,4 +59,10 @@ class WidgetAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    private fun getItem(position: Int): WidgetModel {
+        return items[position]
+    }
+
+
 }
