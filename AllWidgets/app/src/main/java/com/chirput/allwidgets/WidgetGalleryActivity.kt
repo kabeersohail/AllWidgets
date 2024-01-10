@@ -9,33 +9,33 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chirput.allwidgets.databinding.ActivityMainBinding
 import com.chirput.allwidgets.databinding.ActivityWidgetGalleryBinding
 
 private const val EXTRA_RESULT = "result"
-private const val APP_WIDGET_ID = 123
+private const val EXTRA_APP_WIDGET_ID = "app_widget_id"
 
 class WidgetGalleryActivity : AppCompatActivity(), Listener {
 
     private lateinit var binding: ActivityWidgetGalleryBinding
     private lateinit var appWidgetManager: AppWidgetManager
     private lateinit var recyclerView: RecyclerView
+    private var appWidgetId: Int = 0
 
     private val bindWidgetLauncher: ActivityResultLauncher<Input?> =
         registerForActivityResult(
             BindWidgetContract()
         ) {
-            val info = appWidgetManager.getAppWidgetInfo(APP_WIDGET_ID)
+            val info = appWidgetManager.getAppWidgetInfo(appWidgetId)
             setResult(
                 RESULT_OK,
                 Intent().putExtra(
@@ -52,6 +52,11 @@ class WidgetGalleryActivity : AppCompatActivity(), Listener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_widget_gallery)
 
         appWidgetManager = getSystemService(APPWIDGET_SERVICE) as AppWidgetManager
+        appWidgetId = intent.getIntExtra(
+            EXTRA_APP_WIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID
+        )
+
 
         recyclerView = findViewById(R.id.widget_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -102,12 +107,12 @@ class WidgetGalleryActivity : AppCompatActivity(), Listener {
     }
 
     override fun onWidgetSelected(info: AppWidgetProviderInfo?) {
-        if (appWidgetManager.bindAppWidgetIdIfAllowed(APP_WIDGET_ID, info!!.provider)) {
+        if (appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, info!!.provider)) {
             setResult(RESULT_OK, Intent().putExtra(EXTRA_RESULT, info))
             finish()
         } else {
             bindWidgetLauncher.launch(
-                Input(APP_WIDGET_ID, info)
+                Input(appWidgetId, info)
             )
         }
     }
@@ -135,5 +140,20 @@ class WidgetGalleryActivity : AppCompatActivity(), Listener {
             return null
         }
     }
+
+
+    class SelectContract : ActivityResultContract<Int?, AppWidgetProviderInfo?>() {
+        override fun createIntent(context: Context, input: Int?): Intent {
+            return Intent(context, WidgetGalleryActivity::class.java)
+                .putExtra(EXTRA_APP_WIDGET_ID, input)
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): AppWidgetProviderInfo? {
+            return if (resultCode == RESULT_OK && intent != null) intent.getParcelableExtra(
+                EXTRA_RESULT
+            ) else null
+        }
+    }
+
 
 }
