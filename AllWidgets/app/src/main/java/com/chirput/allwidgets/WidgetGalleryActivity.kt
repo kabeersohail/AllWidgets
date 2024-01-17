@@ -93,7 +93,7 @@ class WidgetGalleryActivity : AppCompatActivity(), Listener {
             )
         }
 
-        recyclerView.adapter = WidgetAdapter(this, widgetItems, this)
+        recyclerView.adapter = WidgetAdapterG(this, widgetItems, this)
     }
 
     private fun getWidgetIcon(provider: ComponentName): Drawable? {

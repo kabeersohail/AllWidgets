@@ -10,11 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class WidgetAdapter(
+class WidgetAdapterG(
     private val context: Context,
     private val items: List<WidgetModel>,
     private val listener: Listener
-) : RecyclerView.Adapter<WidgetAdapter.WidgetViewHolder>() {
+) : RecyclerView.Adapter<WidgetAdapterG.WidgetViewHolder>() {
 
     class WidgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val widgetPreview: ImageView = itemView.findViewById(R.id.widget_preview)

@@ -1,0 +1,49 @@
+package com.chirput.allwidgets;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+
+import com.google.android.material.color.MaterialColors;
+
+public final class ResUtils {
+
+    public static int px2dp(Context context, int value) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value,
+                context.getResources().getDisplayMetrics());
+    }
+
+    public static TypedValue resolveAttribute(Context context, @AttrRes int attr) {
+        if (context == context.getApplicationContext()) {
+        }
+        TypedValue out = new TypedValue();
+        if (context.getTheme().resolveAttribute(attr, out, true)) {
+            return out;
+        }
+        return null;
+    }
+
+    @ColorInt
+    public static int resolveColor(Context context, @AttrRes int attr) {
+        return MaterialColors.getColor(context, attr, Color.TRANSPARENT);
+    }
+
+    public static Bitmap bitmapFromDrawable(Drawable icon, int width, int height) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas();
+        canvas.setBitmap(bitmap);
+        icon.setBounds(0, 0, width, height);
+        icon.draw(canvas);
+        return bitmap;
+    }
+
+    private ResUtils() {
+        // no instance
+    }
+}
