@@ -7,7 +7,7 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
@@ -22,10 +22,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <FrameLayout
+        <com.chirput.allwidgets.ResizableFrameLayout
             android:id="@+id/widgetContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/holo_blue_light">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Add any content you want inside the resizable box -->
+
+        </com.chirput.allwidgets.ResizableFrameLayout>
+
+    </RelativeLayout>
 </layout>
