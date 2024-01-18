@@ -2,6 +2,8 @@ package com.chirput.allwidgets
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.GestureDetector
@@ -142,6 +144,26 @@ class ResizableFrameLayout @JvmOverloads constructor(
         }
         return true
     }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        val savedState = Bundle()
+        savedState.putParcelable("superState", superState)
+        savedState.putFloat("lastX", lastX)
+        savedState.putFloat("lastY", lastY)
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state is Bundle) {
+            super.onRestoreInstanceState(state.getParcelable("superState"))
+            lastX = state.getFloat("lastX", 0f)
+            lastY = state.getFloat("lastY", 0f)
+        } else {
+            super.onRestoreInstanceState(state)
+        }
+    }
+
 }
 
 
