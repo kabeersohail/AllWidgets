@@ -12,9 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.chirput.allwidgets.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private const val APP_WIDGET_HOST_ID = 101
 
