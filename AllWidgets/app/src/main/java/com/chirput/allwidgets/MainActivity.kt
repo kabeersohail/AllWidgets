@@ -117,8 +117,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_BIND_WIDGET)
         }
 
-        resize(width = 400, height = 400, hostView = hostView)
-
     }
 
     private fun cancelAddNewWidget(appWidgetId: Int) {
