@@ -9,6 +9,9 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.FrameLayout
+import com.chirput.allwidgets.MainActivity.Companion.binding
+import com.chirput.allwidgets.MainActivity.Companion.hostView
+import com.chirput.allwidgets.MainActivity.Companion.resize
 
 class ResizableFrameLayout @JvmOverloads constructor(
     context: Context,
@@ -131,6 +134,11 @@ class ResizableFrameLayout @JvmOverloads constructor(
 
                 lastX = currentX
                 lastY = currentY
+
+                Log.d(TAG, "$width $height")
+
+                resize(width = width, height = height, hostView = hostView)
+
             }
 
             MotionEvent.ACTION_UP -> {

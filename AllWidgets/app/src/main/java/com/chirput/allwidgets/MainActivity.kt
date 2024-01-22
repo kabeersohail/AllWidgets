@@ -6,18 +6,44 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.content.Intent
 import android.os.Bundle
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.chirput.allwidgets.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val APP_WIDGET_HOST_ID = 101
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var appWidgetHost: AppWidgetHost
-    private lateinit var appWidgetManager: AppWidgetManager
-    private var newAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    companion object {
+        lateinit var binding: ActivityMainBinding
+        private lateinit var appWidgetHost: AppWidgetHost
+        private lateinit var appWidgetManager: AppWidgetManager
+        private var newAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+        lateinit var hostView: AppWidgetHostView
+
+        fun resize(
+            container: ResizableFrameLayout = binding.widgetContainer,
+            width: Int,
+            height: Int,
+            hostView: AppWidgetHostView
+        ) {
+
+            container.removeAllViews()
+
+            // Add it to your layout
+            val layoutParams = FrameLayout.LayoutParams(width, height)
+            container.addView(hostView, layoutParams)
+        }
+
+    }
+
+
 
     private val addWidgetLauncher = registerForActivityResult<Int, AppWidgetProviderInfo>(
         WidgetGalleryActivity.SelectContract()
@@ -58,20 +84,23 @@ class MainActivity : AppCompatActivity() {
             info
         ) ?: return
 
-        createWidget(widgetView.appWidgetInfo)
+        CoroutineScope(Dispatchers.Main).launch {
+            createWidget(widgetView.appWidgetInfo, binding.widgetContainer, 100, 100)
+        }
+
     }
 
-    private fun createWidget(info: AppWidgetProviderInfo): Boolean {
+    private suspend fun createWidget(info: AppWidgetProviderInfo, container: ResizableFrameLayout, width: Int, height: Int) {
         // Get the list of installed widgets
         // Create Widget
         val appWidgetId: Int = appWidgetHost.allocateAppWidgetId()
-        val hostView: AppWidgetHostView =
+        hostView =
             appWidgetHost.createView(this@MainActivity, appWidgetId, info)
         hostView.setAppWidget(appWidgetId, info)
 
         // Add it to your layout
-        val widgetLayout = binding.widgetContainer
-        widgetLayout.addView(hostView)
+        val layoutParams = FrameLayout.LayoutParams(width, height)
+        container.addView(hostView, layoutParams)
 
         // And bind widget IDs to make them actually work
         val allowed: Boolean = appWidgetManager.bindAppWidgetIdIfAllowed(
@@ -89,7 +118,9 @@ class MainActivity : AppCompatActivity() {
             val REQUEST_BIND_WIDGET = 1987
             startActivityForResult(intent, REQUEST_BIND_WIDGET)
         }
-        return true
+
+        resize(width = 400, height = 400, hostView = hostView)
+
     }
 
     private fun cancelAddNewWidget(appWidgetId: Int) {
