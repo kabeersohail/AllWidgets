@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -59,55 +58,38 @@ class MainActivity : AppCompatActivity() {
             info
         ) ?: return
 
-        createWidget(info.provider.packageName, info.provider.className)
+        createWidget(widgetView.appWidgetInfo)
     }
 
-    private fun createWidget(packageName: String, className: String): Boolean {
+    private fun createWidget(info: AppWidgetProviderInfo): Boolean {
         // Get the list of installed widgets
-        var newAppWidgetProviderInfo: AppWidgetProviderInfo? = null
-        val appWidgetInfos: List<AppWidgetProviderInfo> = appWidgetManager.installedProviders
-        var widgetIsFound = false
-        for (j in appWidgetInfos.indices) {
-            if (appWidgetInfos[j].provider.packageName == packageName && appWidgetInfos[j].provider.className == className) {
-                // Get the full info of the required widget
-                newAppWidgetProviderInfo = appWidgetInfos[j]
-                widgetIsFound = true
-                break
-            }
-        }
-        return if (!widgetIsFound) {
-            false
-        } else {
-            // Create Widget
-            val appWidgetId: Int = appWidgetHost.allocateAppWidgetId()
-            val hostView: AppWidgetHostView =
-                appWidgetHost.createView(applicationContext, appWidgetId, newAppWidgetProviderInfo)
-            hostView.setAppWidget(appWidgetId, newAppWidgetProviderInfo)
+        // Create Widget
+        val appWidgetId: Int = appWidgetHost.allocateAppWidgetId()
+        val hostView: AppWidgetHostView =
+            appWidgetHost.createView(this@MainActivity, appWidgetId, info)
+        hostView.setAppWidget(appWidgetId, info)
 
-            // Add it to your layout
-            val widgetLayout = binding.widgetContainer
-            widgetLayout.addView(hostView)
+        // Add it to your layout
+        val widgetLayout = binding.widgetContainer
+        widgetLayout.addView(hostView)
 
-            // And bind widget IDs to make them actually work
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                val allowed: Boolean = appWidgetManager.bindAppWidgetIdIfAllowed(
-                    appWidgetId,
-                    newAppWidgetProviderInfo!!.provider
-                )
-                if (!allowed) {
-                    // Request permission - https://stackoverflow.com/a/44351320/1816603
-                    val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_BIND)
-                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                    intent.putExtra(
-                        AppWidgetManager.EXTRA_APPWIDGET_PROVIDER,
-                        newAppWidgetProviderInfo.provider
-                    )
-                    val REQUEST_BIND_WIDGET = 1987
-                    startActivityForResult(intent, REQUEST_BIND_WIDGET)
-                }
-            }
-            true
+        // And bind widget IDs to make them actually work
+        val allowed: Boolean = appWidgetManager.bindAppWidgetIdIfAllowed(
+            appWidgetId,
+            info.provider
+        )
+        if (!allowed) {
+            // Request permission - https://stackoverflow.com/a/44351320/1816603
+            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_BIND)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            intent.putExtra(
+                AppWidgetManager.EXTRA_APPWIDGET_PROVIDER,
+                info.provider
+            )
+            val REQUEST_BIND_WIDGET = 1987
+            startActivityForResult(intent, REQUEST_BIND_WIDGET)
         }
+        return true
     }
 
     private fun cancelAddNewWidget(appWidgetId: Int) {

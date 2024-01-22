@@ -25,7 +25,7 @@
         <com.chirput.allwidgets.ResizableFrameLayout
             android:id="@+id/widgetContainer"
             android:layout_width="350dp"
-            android:layout_height="100dp"
+            android:layout_height="400dp"
             android:layout_centerInParent="true"
             android:background="@android:color/holo_blue_light">
 
