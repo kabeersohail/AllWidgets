@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="progress_indicator_size">48dp</dimen>
+    <dimen name="color_picker_preview_size">128dp</dimen>
+    <dimen name="edit_panel_size">56dp</dimen>
+    <dimen name="backdrop_grid_size">12dp</dimen>
+    <dimen name="popup_window_arrow_size">8dp</dimen>
+    <dimen name="popup_window_elevation">4dp</dimen>
+    <dimen name="popup_shortcut_icon_size">32dp</dimen>
+    <dimen name="popup_notifications_width">256dp</dimen>
+    <dimen name="popup_action_icon_size">40dp</dimen>
+    <dimen name="list_appearance_translation_offset">96dp</dimen>
+    <dimen name="search_result_margin">8dp</dimen>
+    <dimen name="pref_view_padding">16dp</dimen>
+    <dimen name="default_right_panel_width">320dp</dimen>
+    <dimen name="search_bar_size">56dp</dimen>
+    <dimen name="search_bar_text_size">18sp</dimen>
+    <dimen name="search_bar_size_large">80dp</dimen>
+    <dimen name="search_bar_text_size_large">22sp</dimen>
+    <dimen name="appearance_overlay_container_height">200dp</dimen>
+    <dimen name="widget_max_cell_size">120dp</dimen>
+    <dimen name="widget_list_padding_bottom_extra">96dp</dimen>
+    <dimen name="widget_list_padding_top_extra">56dp</dimen>
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="widget_list_margin">4dp</dimen>
+    <dimen name="widget_resize_frame_stroke">2dp</dimen>
+    <dimen name="widget_resize_frame_handle_radius">6dp</dimen>
+    <dimen name="widget_resize_frame_inset">4dp</dimen>
+    <dimen name="notification_dot_size_small">4dp</dimen>
+    <dimen name="notification_dot_size_normal">6dp</dimen>
+    <dimen name="notification_dot_size_large">8dp</dimen>
+    <dimen name="notification_dot_shadow">3dp</dimen>
+    <dimen name="popup_min_width">224dp</dimen>
+    <dimen name="shimmer_stroke_width">4dp</dimen>
+    <dimen name="shimmer_round_radius">16dp</dimen>
+    <dimen name="shimmer_phase_advance">3dp</dimen>
+</resources>

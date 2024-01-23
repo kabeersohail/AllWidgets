@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="widget_resize_frame">#fff</color>
+    <color name="widget_resize_frame_active">#fff</color>
+    <color name="widget_resize_frame_shadow">#4000</color>
+    <color name="widget_resize_frame_grid">#afff</color>
+    <color name="widget_resize_frame_overlay">#5fff</color>
+
 </resources>
