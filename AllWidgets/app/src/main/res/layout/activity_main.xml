@@ -15,25 +15,31 @@
         <Button
             android:id="@+id/start"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+<!--        <com.chirput.allwidgets.ResizableFrameLayout-->
+<!--            android:id="@+id/widgetContainer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:background="@android:color/holo_blue_light"-->
+<!--            android:minWidth="100dp"-->
+<!--            android:minHeight="100dp">-->
+
+<!--            &lt;!&ndash; Add any content you want inside the resizable box &ndash;&gt;-->
+
+<!--        </com.chirput.allwidgets.ResizableFrameLayout>-->
+
+
+        <com.chirput.allwidgets.lnch.WidgetResizeFrame
+            android:layout_below="@id/start"
+            android:id="@+id/widget_frame"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <com.chirput.allwidgets.ResizableFrameLayout
-            android:id="@+id/widgetContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="100dp"
-            android:minHeight="100dp"
-            android:layout_centerInParent="true"
-            android:background="@android:color/holo_blue_light">
-
-            <!-- Add any content you want inside the resizable box -->
-
-        </com.chirput.allwidgets.ResizableFrameLayout>
+            android:layout_marginHorizontal="@dimen/widget_list_margin"
+            tools:background="#444"
+            tools:layout_height="200dp" />
 
     </RelativeLayout>
 </layout>
